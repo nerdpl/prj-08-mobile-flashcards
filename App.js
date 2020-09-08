@@ -1,22 +1,39 @@
-import { StatusBar } from 'expo-status-bar'
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React, { Component } from 'react'
+import { FontAwesome } from '@expo/vector-icons'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { NavigationContainer } from '@react-navigation/native'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import reducer from './reducers'
 import Home from './components/Home'
+import AddDeck from './components/AddDeck'
+import { colors } from './utils/colors'
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Home />
-      <StatusBar style="auto" />
-    </View>
-  )
+const Tab = createBottomTabNavigator()
+
+export default class App extends Component {
+  render() {
+    return (
+      <Provider store={ createStore(reducer) }>
+        <NavigationContainer>
+          <Tab.Navigator 
+            initialRouteName='Decks'
+            screenOptions={({ route })=> ({
+              tabBarIcon: ()=> {
+                if (route.name === 'Decks') return <FontAwesome name='align-justify' size={ 30 } />
+                if (route.name === 'Add Deck') return <FontAwesome name='plus-square' size={ 30 } />
+              },
+            })}
+            tabBarOptions={{
+              activeBackgroundColor: colors.orange,
+              activeTintColor: 'black'
+            }}
+          >
+            <Tab.Screen name='Decks' component={ Home } />
+            <Tab.Screen name='Add Deck' component={ AddDeck } />
+          </Tab.Navigator>
+        </NavigationContainer>
+      </Provider>
+    )
+  }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-})
