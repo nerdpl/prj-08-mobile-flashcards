@@ -36,7 +36,7 @@ class AddDeck extends Component {
    
     return (
       <View style={ styles.container }>
-        <Text style={ styles.title }>Add new deck:</Text>
+        <Text style={ styles.title }>ADD NEW DECK:</Text>
         <TextInput
           style={ styles.textInput }
           onChangeText={ (text)=> this.setText(text) }
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     borderWidth: 4,
     borderRadius: 7,
     borderStyle: 'solid',
-    marginBottom: 10,
+    marginBottom: 30,
   },
   iosSubmitBtn: {
     backgroundColor: colors.orange,
@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
     height: 45,
     marginLeft: 40,
     marginRight: 40,
+    marginBottom: 30,
   },
   androidSubmitBtn: {
     backgroundColor: colors.orange,
@@ -87,6 +88,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 30,
   }, 
   submitBtnText: {
     color: colors.white,
@@ -97,7 +99,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 30,
     textAlign: 'center',
-    marginBottom: 10, 
+    marginBottom: 30, 
   },
 })
 

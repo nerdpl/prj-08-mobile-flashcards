@@ -9,45 +9,43 @@ import ViewDeck from './ViewDeck'
 
 class Home extends Component {
   componentDidMount() {
-    const { dispatch } = this.props
-
     fetchData()
-      .then((data)=> dispatch(receiveData(data)))
+      .then((data)=> this.props.dispatch(receiveData(data)))
   }
 
   render() {
     const { data, decks } = this.props
     const Stack = createStackNavigator()
 
-    return (
-      <ScrollView>
-        <Stack.Navigator>
-          <Stack.Screen name='ViewDeck' component={ViewDeck} />
-        </Stack.Navigator>
+    if (decks.length === 0) 
+      return (
         <View style={ styles.center }>
-          { decks.map((deck)=> { return (
-            <TouchableOpacity 
-              style={ styles.decks } 
-              onPress={ ()=> { this.props.navigation.navigate('ViewDeck', { deckKey: deck }) } }
-            >
-              <Text style={ styles.title }>{ deck }</Text>
-              <Text style={ styles.numberOfQ }>
-                { data[deck].questions.length } { data[deck].questions.length === 1 ? 'card' : 'cards' }
-              </Text>
-            </TouchableOpacity>
-          )})}
+          <Text style={ styles.title }>There are no created decks.</Text>
         </View>
-      </ScrollView>
-    )
-  }
-}
-
-function mapStateToProps(data) {
-  const decks = Object.keys(data)
-  
-  return {
-    data,
-    decks 
+      )
+    else 
+      return (
+        <ScrollView>
+          <Stack.Navigator>
+            <Stack.Screen name='ViewDeck' component={ViewDeck} />
+          </Stack.Navigator>
+          <View style={ styles.center }>
+            { decks.map((deck)=> { return (
+              <TouchableOpacity
+                key={ deck }
+                style={ styles.decks } 
+                onPress={ ()=> { this.props.navigation.navigate('ViewDeck', { deckKey: deck }) } }
+              >
+                <Text style={ styles.title }>{ deck }</Text>
+                <Text style={ styles.numberOfQ }>
+                  { data[deck].questions.length }
+                  { data[deck].questions.length === 1 ? ' card' : ' cards' }
+                </Text>
+              </TouchableOpacity>
+            )})}
+          </View>
+        </ScrollView>
+      )
   }
 }
 
@@ -77,5 +75,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 })
+
+function mapStateToProps(data) {
+  const decks = Object.keys(data)
+  
+  return {
+    data,
+    decks 
+  }
+}
 
 export default connect(mapStateToProps)(Home)

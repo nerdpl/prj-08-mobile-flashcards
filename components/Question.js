@@ -6,7 +6,7 @@ class Question extends Component {
   render() {
     return (
       <View>
-        <Text>Question</Text>
+        <Text>Question!</Text>
       </View>
     )
   }

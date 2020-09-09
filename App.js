@@ -7,6 +7,7 @@ import { Provider } from 'react-redux'
 import reducer from './reducers'
 import Home from './components/Home'
 import AddDeck from './components/AddDeck'
+import ViewDeck from './components/ViewDeck'
 import { colors } from './utils/colors'
 import { View, StatusBar } from 'react-native'
 import Constants from 'expo-constants'
@@ -41,6 +42,7 @@ export default class App extends Component {
             }}
           >
             <Tab.Screen name='Decks' component={ Home } />
+            <Tab.Screen name='View' component={ ViewDeck } />
             <Tab.Screen name='Add Deck' component={ AddDeck } />
           </Tab.Navigator>
         </NavigationContainer>
