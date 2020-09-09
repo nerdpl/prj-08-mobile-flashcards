@@ -6,7 +6,7 @@ class ViewDeck extends Component {
   render() {
     return (
       <View>
-        <Text>View Deck</Text>
+        <Text>View Deck{ JSON.stringify(this.props) }</Text>
       </View>
     )
   }

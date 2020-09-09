@@ -1,36 +1,42 @@
 import React, { Component } from 'react'
 import { View, Text, Platform, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
+import { createStackNavigator } from '@react-navigation/stack'
 import { colors } from '../utils/colors'
 import { connect } from 'react-redux'
 import { fetchData } from '../utils/api'
 import { receiveData } from '../actions'
+import ViewDeck from './ViewDeck'
 
 class Home extends Component {
-
   componentDidMount() {
     const { dispatch } = this.props
 
     fetchData()
       .then((data)=> dispatch(receiveData(data)))
   }
-  
-  press = ()=> {
-
-  }
 
   render() {
     const { data, decks } = this.props
+    const Stack = createStackNavigator()
 
     return (
       <ScrollView>
-      <View style={ styles.center }>
-        { decks.map((deck)=> { return (
-          <TouchableOpacity style={ styles.decks } onPress={ this.press }>
-            <Text style={ styles.title }>{ deck }</Text>
-        <Text style={ styles.numberOfQ }>{ data[deck].questions.length } { data[deck].questions.length === 1 ? 'card' : 'cards' }</Text>
-          </TouchableOpacity>
-        )})}
-      </View>
+        <Stack.Navigator>
+          <Stack.Screen name='ViewDeck' component={ViewDeck} />
+        </Stack.Navigator>
+        <View style={ styles.center }>
+          { decks.map((deck)=> { return (
+            <TouchableOpacity 
+              style={ styles.decks } 
+              onPress={ ()=> { this.props.navigation.navigate('ViewDeck', { deckKey: deck }) } }
+            >
+              <Text style={ styles.title }>{ deck }</Text>
+              <Text style={ styles.numberOfQ }>
+                { data[deck].questions.length } { data[deck].questions.length === 1 ? 'card' : 'cards' }
+              </Text>
+            </TouchableOpacity>
+          )})}
+        </View>
       </ScrollView>
     )
   }

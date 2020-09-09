@@ -1,6 +1,7 @@
 import { RECEIVE_DATA, ADD_DECK } from '../actions'
 
 function data (state = {}, action) {
+  let test2 = {}
   let test = {
     React: {
       title: 'React',
