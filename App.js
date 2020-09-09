@@ -8,6 +8,16 @@ import reducer from './reducers'
 import Home from './components/Home'
 import AddDeck from './components/AddDeck'
 import { colors } from './utils/colors'
+import { View, StatusBar } from 'react-native'
+import Constants from 'expo-constants'
+
+function MyStatusBar({ backgroundColor, ...props }) {
+  return (
+    <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
+      <StatusBar translucent backgroundColor={ backgroundColor } { ...props } />
+    </View>
+  )
+}
 
 const Tab = createBottomTabNavigator()
 
@@ -16,6 +26,7 @@ export default class App extends Component {
     return (
       <Provider store={ createStore(reducer) }>
         <NavigationContainer>
+          <MyStatusBar backgroundColor={ colors.orange } barStyle='light-content' />
           <Tab.Navigator 
             initialRouteName='Decks'
             screenOptions={({ route })=> ({
