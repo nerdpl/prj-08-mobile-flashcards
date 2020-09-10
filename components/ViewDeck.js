@@ -13,13 +13,16 @@ class ViewDeck extends Component {
 
   handleDeleteDeck = (deckID)=> {
     deleteDeck(deckID)
-      .then(()=> dispatch(removeDeck(deckID)))
-      .then(()=> this.props.navigation.navigate('Decks'))
+      //.then(()=> this.props.dispatch(removeDeck(deckID)))
+      //.then(()=> this.props.navigation.navigate('Decks'))
   }
 
   render() {
     const { data, decks } = this.props
-    const deck = data[decks[0]]
+    const { deckKey } = this.props.route.params
+    const deck = data[deckKey]
+    console.log('Data: ', data)
+    console.log('Deck: ', deck)
 
     if (decks.length === 0) 
       return (
@@ -44,7 +47,7 @@ class ViewDeck extends Component {
         </TouchableOpacity>
         <TouchableOpacity 
           style={ Platform.OS === 'ios' ? styles.iosAddBtn : styles.androidAddBtn }
-          onPress={ this.submit }>
+          onPress={ ()=> { this.props.navigation.navigate('AddCard', { deckKey: deck.title }) } }>
           <Text style={ styles.submitBtnText }>ADD CARD</Text>
         </TouchableOpacity>
         <TouchableOpacity 
@@ -140,7 +143,7 @@ function mapStateToProps(data) {
   
   return {
     data,
-    decks 
+    decks,
   }
 }
 

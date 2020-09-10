@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text } from 'react-native'
+import { connect } from 'react-redux'
 import { colors } from '../utils/colors'
 
 class AddCard extends Component {
@@ -12,4 +13,4 @@ class AddCard extends Component {
   }
 }
 
-export default AddCard
+export default connect()(AddCard)

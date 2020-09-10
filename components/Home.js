@@ -1,23 +1,26 @@
 import React, { Component } from 'react'
 import { View, Text, Platform, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
-import { createStackNavigator } from '@react-navigation/stack'
 import { colors } from '../utils/colors'
 import { connect } from 'react-redux'
 import { fetchData } from '../utils/api'
 import { receiveData } from '../actions'
-import ViewDeck from './ViewDeck'
 
 class Home extends Component {
   componentDidMount() {
+    const { dispatch } = this.props
+
     fetchData()
-      .then((data)=> this.props.dispatch(receiveData(data)))
+      .then((allData)=> { 
+        console.log('aaa: ', allData)
+        dispatch(receiveData(allData))
+      })
+      .then((allData)=> console.log('bbb: ', allData))
   }
 
   render() {
     const { data, decks } = this.props
-    const Stack = createStackNavigator()
 
-    if (decks.length === 0) 
+    if (!decks) 
       return (
         <View style={ styles.center }>
           <Text style={ styles.title }>There are no created decks.</Text>
@@ -26,9 +29,6 @@ class Home extends Component {
     else 
       return (
         <ScrollView>
-          <Stack.Navigator>
-            <Stack.Screen name='ViewDeck' component={ViewDeck} />
-          </Stack.Navigator>
           <View style={ styles.center }>
             { decks.map((deck)=> { return (
               <TouchableOpacity

@@ -1,16 +1,20 @@
 import React, { Component } from 'react'
 import { FontAwesome } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from './reducers'
 import Home from './components/Home'
 import AddDeck from './components/AddDeck'
+import AddCard from './components/AddCard'
 import ViewDeck from './components/ViewDeck'
 import { colors } from './utils/colors'
 import { View, StatusBar } from 'react-native'
 import Constants from 'expo-constants'
+
+const Tab = createBottomTabNavigator()
 
 function MyStatusBar({ backgroundColor, ...props }) {
   return (
@@ -19,8 +23,6 @@ function MyStatusBar({ backgroundColor, ...props }) {
     </View>
   )
 }
-
-const Tab = createBottomTabNavigator()
 
 export default class App extends Component {
   render() {
@@ -41,8 +43,7 @@ export default class App extends Component {
               activeTintColor: 'black'
             }}
           >
-            <Tab.Screen name='Decks' component={ Home } />
-            <Tab.Screen name='View' component={ ViewDeck } />
+            <Tab.Screen name='Decks' component={ StackNav } />
             <Tab.Screen name='Add Deck' component={ AddDeck } />
           </Tab.Navigator>
         </NavigationContainer>
@@ -50,3 +51,15 @@ export default class App extends Component {
     )
   }
 }
+
+const Stack = createStackNavigator()
+
+function StackNav() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name='Home' component={ Home } />
+      <Stack.Screen name='ViewDeck' component={ ViewDeck } />
+      <Stack.Screen name='AddCard' component={ AddCard } />
+    </Stack.Navigator>
+  )
+} 

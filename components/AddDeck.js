@@ -32,8 +32,6 @@ class AddDeck extends Component {
   }
 
   render() {
-    const { value } = this.state
-   
     return (
       <View style={ styles.container }>
         <Text style={ styles.title }>ADD NEW DECK:</Text>

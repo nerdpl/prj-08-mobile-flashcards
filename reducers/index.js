@@ -26,12 +26,13 @@ const test = {
   }
 }
 
-function data (state = test, action) {
+function data (state = {}, action) {
   switch (action.type) {
     case RECEIVE_DATA :
+      console.log('action: ', action)
       return {
         ...state,
-        ...action.data,
+        action.data,
       }
     case ADD_DECK :
       return {
