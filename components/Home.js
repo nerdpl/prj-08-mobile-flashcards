@@ -10,23 +10,20 @@ class Home extends Component {
     const { dispatch } = this.props
 
     fetchData()
-      .then((allData)=> { 
-        console.log('aaa: ', allData)
-        dispatch(receiveData(allData))
+      .then((allData)=> {
+        let parsedData = JSON.parse(allData)
+        dispatch(receiveData(parsedData))
       })
-      .then((allData)=> console.log('bbb: ', allData))
+      .catch((error)=> {
+          console.log("Api call error")
+          alert(error.message)
+       })
   }
 
   render() {
     const { data, decks } = this.props
 
-    if (!decks) 
-      return (
-        <View style={ styles.center }>
-          <Text style={ styles.title }>There are no created decks.</Text>
-        </View>
-      )
-    else 
+    if (decks.length > 0) 
       return (
         <ScrollView>
           <View style={ styles.center }>
@@ -45,6 +42,12 @@ class Home extends Component {
             )})}
           </View>
         </ScrollView>
+      )
+    else
+      return (
+        <View style={ styles.center }>
+          <Text style={ styles.title }>There are no created decks.</Text>
+        </View>
       )
   }
 }
@@ -76,11 +79,11 @@ const styles = StyleSheet.create({
   },
 })
 
-function mapStateToProps(data) {
-  const decks = Object.keys(data)
+function mapStateToProps(state) {
+  const decks = Object.keys(state)
   
   return {
-    data,
+    data: state,
     decks 
   }
 }

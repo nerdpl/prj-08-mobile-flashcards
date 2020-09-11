@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-import { View, Text, TextInput, TouchableOpacity, Platform, StyleSheet } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, Platform, StyleSheet, Keyboard } from 'react-native'
 import { colors } from '../utils/colors'
 import { connect } from 'react-redux'
 import { addDeck } from '../actions'
 import { submitDeck } from '../utils/api'
-import { Keyboard } from 'react-native';
 
 class AddDeck extends Component {
   state = {
@@ -29,6 +28,10 @@ class AddDeck extends Component {
       .then(()=> dispatch(addDeck(newDeck)))
       .then(()=> this.setState({ inputText: '' }))
       .then(()=> this.props.navigation.navigate('Decks'))
+      .catch((error)=> {
+        console.log("Api call error")
+        alert(error.message)
+     })
   }
 
   render() {

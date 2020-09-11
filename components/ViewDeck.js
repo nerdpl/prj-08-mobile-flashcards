@@ -6,15 +6,15 @@ import { fetchData, deleteDeck } from '../utils/api'
 import { receiveData, removeDeck } from '../actions'
 
 class ViewDeck extends Component {
-  componentDidMount() {
-    fetchData()
-      .then((data)=> this.props.dispatch(receiveData(data)))
-  }
 
   handleDeleteDeck = (deckID)=> {
     deleteDeck(deckID)
-      //.then(()=> this.props.dispatch(removeDeck(deckID)))
-      //.then(()=> this.props.navigation.navigate('Decks'))
+      .then(()=> this.props.dispatch(removeDeck(deckID)))
+      .then(()=> this.props.navigation.goBack())
+      .catch((error)=> {
+        console.log("Api call error")
+        alert(error.message)
+     })
   }
 
   render() {
@@ -24,12 +24,9 @@ class ViewDeck extends Component {
     console.log('Data: ', data)
     console.log('Deck: ', deck)
 
-    if (decks.length === 0) 
-      return (
-        <View style={ styles.center }>
-          <Text style={ styles.title }>There are no created decks.</Text>
-        </View>
-      )
+    if (!deck) {
+      this.props.navigation.navigate('Decks')
+      return null}
     else 
       return (
       <View style={ styles.center }>
@@ -52,7 +49,7 @@ class ViewDeck extends Component {
         </TouchableOpacity>
         <TouchableOpacity 
           style={ Platform.OS === 'ios' ? styles.iosDeleteBtn : styles.androidDeleteBtn }
-          onPress={ this.handleDeleteDeck(deck.title) }>
+          onPress={ ()=> this.handleDeleteDeck(deck.title) }>
           <Text style={ styles.submitBtnText }>DELETE DECK</Text>
         </TouchableOpacity>
       </View>

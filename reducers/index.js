@@ -1,38 +1,11 @@
 import { RECEIVE_DATA, ADD_DECK, ADD_CARD, DELETE_DECK } from '../actions'
 
-const test2 = {}
-const test = {
-  React: {
-    title: 'React',
-    questions: [
-      {
-        question: 'What is React?',
-        answer: 'A library for managing user interfaces'
-      },
-      {
-        question: 'Where do you make Ajax requests in React?',
-        answer: 'The componentDidMount lifecycle event'
-      }
-    ]
-  },
-  JavaScript: {
-    title: 'JavaScript',
-    questions: [
-      {
-        question: 'What is a closure?',
-        answer: 'The combination of a function and the lexical environment within which that function was declared.'
-      }
-    ]
-  }
-}
-
 function data (state = {}, action) {
   switch (action.type) {
     case RECEIVE_DATA :
-      console.log('action: ', action)
       return {
         ...state,
-        action.data,
+        ...action.data,
       }
     case ADD_DECK :
       return {
@@ -40,15 +13,19 @@ function data (state = {}, action) {
         ...action.newDeck,
       }
     case ADD_CARD :
-      return {
-        ...state,
-        ...action.newCard,
-      }
-    case DELETE_DECK :
+      let deck = state[action.deckKey]
+      deck.questions.push(action.newCard)
       let newState = state
-      delete newState[action.deckName]
+      delete newState[action.deckKey]
       return {
         ...newState,
+        [action.deckKey]: deck,
+      }
+    case DELETE_DECK :
+      let newStateTwo = state
+      delete newStateTwo[action.deckName]
+      return {
+        ...newStateTwo,
       }
     default :
       return state

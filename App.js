@@ -56,7 +56,13 @@ const Stack = createStackNavigator()
 
 function StackNav() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={({ route })=> ({
+      headerShown: ()=> {
+        if (route.name === 'Home') return false
+        if (route.name === 'ViewDeck') return true
+        if (route.name === 'AddCard') return true
+      }
+    })}>
       <Stack.Screen name='Home' component={ Home } />
       <Stack.Screen name='ViewDeck' component={ ViewDeck } />
       <Stack.Screen name='AddCard' component={ AddCard } />
