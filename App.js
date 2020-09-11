@@ -10,6 +10,7 @@ import Home from './components/Home'
 import AddDeck from './components/AddDeck'
 import AddCard from './components/AddCard'
 import ViewDeck from './components/ViewDeck'
+import Quiz from './components/Quiz'
 import { colors } from './utils/colors'
 import { View, StatusBar } from 'react-native'
 import Constants from 'expo-constants'
@@ -56,16 +57,12 @@ const Stack = createStackNavigator()
 
 function StackNav() {
   return (
-    <Stack.Navigator screenOptions={({ route })=> ({
-      headerShown: ()=> {
-        if (route.name === 'Home') return false
-        if (route.name === 'ViewDeck') return true
-        if (route.name === 'AddCard') return true
-      }
-    })}>
-      <Stack.Screen name='Home' component={ Home } />
-      <Stack.Screen name='ViewDeck' component={ ViewDeck } />
-      <Stack.Screen name='AddCard' component={ AddCard } />
+    //<Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator>
+      <Stack.Screen name='Home' component={ Home } options={{ title: '', headerTintColor: colors.orange }} />
+      <Stack.Screen name='ViewDeck' component={ ViewDeck } options={{ title: '', headerTintColor: colors.orange }} />
+      <Stack.Screen name='AddCard' component={ AddCard } options={{ title: '', headerTintColor: colors.orange }} />
+      <Stack.Screen name='Quiz' component={ Quiz } options={{ title: '', headerTintColor: colors.orange }} />
     </Stack.Navigator>
   )
 } 

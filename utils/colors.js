@@ -7,4 +7,5 @@ export const colors = {
   blue: '#4e4cb8',
   lightPurp: '#7c53c3',
   pink: '#b93fb3',
+  green: 'darkgreen',
 }

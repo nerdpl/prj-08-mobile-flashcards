@@ -39,7 +39,7 @@ class ViewDeck extends Component {
         </View>
         <TouchableOpacity 
           style={ Platform.OS === 'ios' ? styles.iosAddBtn : styles.androidAddBtn }
-          onPress={ this.submit }>
+          onPress={ ()=> { this.props.navigation.navigate('Quiz', { deckKey: deck.title }) } }>
           <Text style={ styles.submitBtnText }>START QUIZ</Text>
         </TouchableOpacity>
         <TouchableOpacity 
