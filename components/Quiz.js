@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, Platform, TouchableOpacity } from 'react-native'
 import { colors } from '../utils/colors'
 import { connect } from 'react-redux'
+import { setLocalNotification, clearLocalNotification } from '../utils/api'
 
 class Quiz extends Component {
   state = {
@@ -22,6 +23,8 @@ class Quiz extends Component {
     if (currentQuestion + 1 === questionsAmount) {
       const score = 'Your score is ' + correctAnswers + '/' + questionsAmount + '!'
       this.setState({ correctAnswers: 0, currentQuestion: 0 })
+      clearLocalNotification()
+        .then(setLocalNotification())
       this.props.navigation.navigate('ViewQuizResults', { score: score, deckKey: deck.title })
     }
     else this.setState({ currentQuestion: currentQuestion + 1 })
@@ -34,6 +37,8 @@ class Quiz extends Component {
     if (currentQuestion + 1 === questionsAmount) {
       const score = 'Your score is ' + correctAnswers + '/' + questionsAmount + '!'
       this.setState({ correctAnswers: 0, currentQuestion: 0 })
+      clearLocalNotification()
+        .then(setLocalNotification())
       this.props.navigation.navigate('ViewQuizResults', { score: score, deckKey: deck.title })
     }
     else this.setState({ currentQuestion: currentQuestion + 1 })

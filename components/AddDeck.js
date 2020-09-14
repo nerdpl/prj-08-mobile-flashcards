@@ -16,9 +16,10 @@ class AddDeck extends Component {
 
   submit = ()=> {
     const { dispatch } = this.props
+    const deck = this.state.inputText
     const newDeck = {
-      [this.state.inputText]: {
-        title: this.state.inputText,
+      [deck]: {
+        title: deck,
         questions: []
       }
     }
@@ -32,7 +33,7 @@ class AddDeck extends Component {
       submitDeck(newDeck)
         .then(()=> dispatch(addDeck(newDeck)))
         .then(()=> this.setState({ inputText: '' }))
-        .then(()=> this.props.navigation.navigate('Decks'))
+        .then(()=> this.props.navigation.navigate('ViewDeck', { deckKey: deck }))
         .catch((error)=> {
           console.log("Api call error")
           alert(error.message)

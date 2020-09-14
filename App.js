@@ -15,6 +15,7 @@ import Quiz from './components/Quiz'
 import { colors } from './utils/colors'
 import { View, StatusBar } from 'react-native'
 import Constants from 'expo-constants'
+import { setLocalNotification } from './utils/api'
 
 const Tab = createBottomTabNavigator()
 
@@ -27,6 +28,10 @@ function MyStatusBar({ backgroundColor, ...props }) {
 }
 
 export default class App extends Component {
+  componentDidMount() {
+    setLocalNotification()
+  }
+
   render() {
     return (
       <Provider store={ createStore(reducer) }>

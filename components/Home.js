@@ -46,7 +46,7 @@ class Home extends Component {
     else
       return (
         <View style={ styles.center }>
-          <Text style={ styles.title }>There are no created decks.</Text>
+          <Text style={ styles.title }>No decks.</Text>
         </View>
       )
   }
