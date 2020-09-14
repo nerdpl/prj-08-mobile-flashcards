@@ -21,8 +21,6 @@ class ViewDeck extends Component {
     const { data, decks } = this.props
     const { deckKey } = this.props.route.params
     const deck = data[deckKey]
-    console.log('Data: ', data)
-    console.log('Deck: ', deck)
 
     if (!deck) {
       this.props.navigation.navigate('Decks')
@@ -38,8 +36,8 @@ class ViewDeck extends Component {
           </Text>
         </View>
         <TouchableOpacity 
-          style={ Platform.OS === 'ios' ? styles.iosAddBtn : styles.androidAddBtn }
-          onPress={ ()=> { this.props.navigation.navigate('Quiz', { deckKey: deck.title }) } }>
+          style={ Platform.OS === 'ios' ? styles.iosQuizBtn : styles.androidQuizBtn }
+          onPress={ ()=> { (deck.questions.length === 0) ? alert('This deck is empty.') : this.props.navigation.navigate('Quiz', { deckKey: deck.title }) } }>
           <Text style={ styles.submitBtnText }>START QUIZ</Text>
         </TouchableOpacity>
         <TouchableOpacity 
@@ -82,6 +80,29 @@ const styles = StyleSheet.create({
     color: colors.gray,
     fontSize: 20,
   },
+  iosQuizBtn: {
+    backgroundColor: colors.green,
+    padding: 10,
+    borderRadius: 7,
+    height: 45,
+    marginLeft: 40,
+    marginRight: 40,
+    marginBottom: 30,
+    width: 350,
+  },
+  androidQuizBtn: {
+    backgroundColor: colors.green,
+    padding: 10,
+    paddingLeft: 30,
+    paddingRight: 30,
+    marginBottom: 30,
+    height: 45,
+    width: 350,
+    borderRadius: 2,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   iosAddBtn: {
     backgroundColor: colors.orange,
     padding: 10,
@@ -101,7 +122,7 @@ const styles = StyleSheet.create({
     height: 45,
     width: 350,
     borderRadius: 2,
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -124,7 +145,7 @@ const styles = StyleSheet.create({
     height: 45,
     width: 350,
     borderRadius: 2,
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
   }, 

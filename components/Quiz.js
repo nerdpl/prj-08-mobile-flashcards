@@ -8,7 +8,6 @@ class Quiz extends Component {
     questionsAmount: 0,
     currentQuestion: 0,
     correctAnswers: 0,
-    incorrectAnswers: 0,
     side: 'Q',
   }
 
@@ -17,17 +16,27 @@ class Quiz extends Component {
   }
 
   answerCorrect = (deck)=> {
-    this.setState({ correctAnswers: this.state.correctAnswers + 1 })
-    this.setState({ side: 'Q' })
-    if (this.state.currentQuestion + 1 > this.state.questionsAmount) this.props.navigation.navigate('Home')
-    else this.setState({ currentQuestion: this.state.currentQuestion + 1 })
+    const { correctAnswers, currentQuestion, questionsAmount } = this.state
+
+    this.setState({ correctAnswers: correctAnswers + 1, side: 'Q' })
+    if (currentQuestion + 1 === questionsAmount) {
+      const score = 'Your score is ' + correctAnswers + '/' + questionsAmount + '!'
+      this.setState({ correctAnswers: 0, currentQuestion: 0 })
+      this.props.navigation.navigate('ViewQuizResults', { score: score, deckKey: deck.title })
+    }
+    else this.setState({ currentQuestion: currentQuestion + 1 })
   }
 
   answerIncorrect = (deck)=> {
-    this.setState({ incorrectAnswers: this.state.correctAnswers + 1 })
+    const { correctAnswers, currentQuestion, questionsAmount } = this.state
+
     this.setState({ side: 'Q' })
-    if (this.state.currentQuestion + 1 > this.state.questionsAmount) this.props.navigation.navigate('Home')
-    else this.setState({ currentQuestion: this.state.currentQuestion + 1 })
+    if (currentQuestion + 1 === questionsAmount) {
+      const score = 'Your score is ' + correctAnswers + '/' + questionsAmount + '!'
+      this.setState({ correctAnswers: 0, currentQuestion: 0 })
+      this.props.navigation.navigate('ViewQuizResults', { score: score, deckKey: deck.title })
+    }
+    else this.setState({ currentQuestion: currentQuestion + 1 })
   }
 
   render() {
@@ -85,6 +94,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 20,
     textAlign: 'center',
+    alignSelf: 'center',
   },
   decks: {
     width: 350,
@@ -96,6 +106,7 @@ const styles = StyleSheet.create({
     borderWidth: 4,
     borderRadius: 10,
     borderStyle: 'solid',
+    alignSelf: 'center',
   },
   iosAddBtn: {
     backgroundColor: colors.orange,
@@ -116,7 +127,7 @@ const styles = StyleSheet.create({
     height: 45,
     width: 350,
     borderRadius: 2,
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -144,12 +155,10 @@ const styles = StyleSheet.create({
   androidCorrectBtn: {
     backgroundColor: colors.green,
     padding: 10,
-    paddingLeft: 30,
-    paddingRight: 30,
     margin: 10,
     marginBottom: 30,
     height: 45,
-    width: 350,
+    width: 150,
     borderRadius: 2,
     justifyContent: 'center',
     alignItems: 'center',
@@ -166,12 +175,10 @@ const styles = StyleSheet.create({
   androidIncorrectBtn: {
     backgroundColor: colors.red,
     padding: 10,
-    paddingLeft: 30,
-    paddingRight: 30,
     margin: 10,
     marginBottom: 30,
     height: 45,
-    width: 350,
+    width: 150,
     borderRadius: 2,
     justifyContent: 'center',
     alignItems: 'center',

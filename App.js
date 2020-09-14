@@ -10,6 +10,7 @@ import Home from './components/Home'
 import AddDeck from './components/AddDeck'
 import AddCard from './components/AddCard'
 import ViewDeck from './components/ViewDeck'
+import ViewQuizResults from './components/ViewQuizResults'
 import Quiz from './components/Quiz'
 import { colors } from './utils/colors'
 import { View, StatusBar } from 'react-native'
@@ -61,6 +62,7 @@ function StackNav() {
       <Stack.Navigator>
       <Stack.Screen name='Home' component={ Home } options={{ title: '', headerTintColor: colors.orange }} />
       <Stack.Screen name='ViewDeck' component={ ViewDeck } options={{ title: '', headerTintColor: colors.orange }} />
+      <Stack.Screen name='ViewQuizResults' component={ ViewQuizResults } options={{ title: '', headerTintColor: colors.orange }} />
       <Stack.Screen name='AddCard' component={ AddCard } options={{ title: '', headerTintColor: colors.orange }} />
       <Stack.Screen name='Quiz' component={ Quiz } options={{ title: '', headerTintColor: colors.orange }} />
     </Stack.Navigator>

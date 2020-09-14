@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Platform, Keyboard } from 'react-native'
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Platform, Keyboard, ScrollView } from 'react-native'
 import { connect } from 'react-redux'
 import { colors } from '../utils/colors'
 import { submitCard } from '../utils/api'
@@ -26,17 +26,23 @@ class AddCard extends Component {
       answer: this.state.inputA,
     }
 
-    Keyboard.dismiss()
-    submitCard(newCard, deckKey)
-      .then(()=> dispatch(addCard(newCard, deckKey)))
-      .then(()=> {
-        this.setState({ inputQ: '' })
-        this.setState({ inputA: '' })
+    if (this.state.inputQ === '')
+      alert('Question field cannot be empty.')
+    else if (this.state.inputA === '')
+      alert('Answer field cannot be empty.')
+    else {
+      Keyboard.dismiss()
+      submitCard(newCard, deckKey)
+        .then(()=> dispatch(addCard(newCard, deckKey)))
+        .then(()=> {
+          this.setState({ inputQ: '' })
+          this.setState({ inputA: '' })
+        })
+        .catch((error)=> {
+          console.log("Api call error")
+          alert(error.message)
       })
-      .catch((error)=> {
-        console.log("Api call error")
-        alert(error.message)
-     })
+    }
   }
 
   render() {
@@ -45,32 +51,34 @@ class AddCard extends Component {
     const deck = data[deckKey]
 
     return (
-      <View style={ styles.container }>
-        <View style={ [styles.decks, { marginBottom: 30 }] }>
-          <Text style={ styles.title }>{ deck.title }</Text>
-          <Text style={ styles.numberOfQ }>
-            { deck.questions.length } 
-            { deck.questions.length === 1 ? ' card' : ' cards' }
-          </Text>
+      <ScrollView>
+        <View style={ styles.container }>
+          <View style={ [styles.decks, { marginBottom: 30 }] }>
+            <Text style={ styles.title }>{ deck.title }</Text>
+            <Text style={ styles.numberOfQ }>
+              { deck.questions.length } 
+              { deck.questions.length === 1 ? ' card' : ' cards' }
+            </Text>
+          </View>
+          <Text style={ styles.title }>QUESTION:</Text>
+          <TextInput
+            style={ styles.textInput }
+            onChangeText={ (text)=> this.setTextQ(text) }
+            value={ this.state.inputQ }
+          />
+          <Text style={ styles.title }>ANSWER:</Text>
+          <TextInput
+            style={ styles.textInput }
+            onChangeText={ (text)=> this.setTextA(text) }
+            value={ this.state.inputA }
+          />
+          <TouchableOpacity 
+            style={ Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.androidSubmitBtn }
+            onPress={ ()=> this.submitCard(deckKey) }>
+            <Text style={ styles.submitBtnText }>ADD</Text>
+          </TouchableOpacity>
         </View>
-        <Text style={ styles.title }>QUESTION:</Text>
-        <TextInput
-          style={ styles.textInput }
-          onChangeText={ (text)=> this.setTextQ(text) }
-          value={ this.state.inputQ }
-        />
-        <Text style={ styles.title }>ANSWER:</Text>
-        <TextInput
-          style={ styles.textInput }
-          onChangeText={ (text)=> this.setTextA(text) }
-          value={ this.state.inputA }
-        />
-        <TouchableOpacity 
-          style={ Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.androidSubmitBtn }
-          onPress={ ()=> this.submitCard(deckKey) }>
-          <Text style={ styles.submitBtnText }>ADD</Text>
-        </TouchableOpacity>
-      </View>
+      </ScrollView>
     )
   }
 }
@@ -90,6 +98,9 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     borderStyle: 'solid',
     marginBottom: 10,
+    alignSelf: 'center',
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   iosSubmitBtn: {
     backgroundColor: colors.orange,
@@ -108,7 +119,7 @@ const styles = StyleSheet.create({
     width: 350,
     margin: 10,
     borderRadius: 2,
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
   }, 
@@ -136,6 +147,7 @@ const styles = StyleSheet.create({
     borderWidth: 4,
     borderRadius: 10,
     borderStyle: 'solid',
+    alignSelf: 'center',
   },
 })
 

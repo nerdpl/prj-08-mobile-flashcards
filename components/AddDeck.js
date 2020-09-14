@@ -23,15 +23,21 @@ class AddDeck extends Component {
       }
     }
 
-    Keyboard.dismiss()
-    submitDeck(newDeck)
-      .then(()=> dispatch(addDeck(newDeck)))
-      .then(()=> this.setState({ inputText: '' }))
-      .then(()=> this.props.navigation.navigate('Decks'))
-      .catch((error)=> {
-        console.log("Api call error")
-        alert(error.message)
-     })
+    if (this.state.inputText === '')
+      alert('Deck name cannot be empty.')
+    else if (this.props.decks.includes(this.state.inputText))
+      alert('That deck is already created.')
+    else {
+      Keyboard.dismiss()
+      submitDeck(newDeck)
+        .then(()=> dispatch(addDeck(newDeck)))
+        .then(()=> this.setState({ inputText: '' }))
+        .then(()=> this.props.navigation.navigate('Decks'))
+        .catch((error)=> {
+          console.log("Api call error")
+          alert(error.message)
+      })
+    }
   }
 
   render() {
@@ -69,6 +75,8 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     borderStyle: 'solid',
     marginBottom: 30,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   iosSubmitBtn: {
     backgroundColor: colors.orange,
@@ -86,7 +94,7 @@ const styles = StyleSheet.create({
     paddingRight: 30,
     height: 45,
     borderRadius: 2,
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 30,
@@ -104,4 +112,12 @@ const styles = StyleSheet.create({
   },
 })
 
-export default connect()(AddDeck)
+function mapStateToProps(state) {
+  const decks = Object.keys(state)
+  
+  return {
+    decks 
+  }
+}
+
+export default connect(mapStateToProps)(AddDeck)
