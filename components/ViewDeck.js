@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native'
 import { colors } from '../utils/colors'
 import { connect } from 'react-redux'
-import { fetchData, deleteDeck } from '../utils/api'
-import { receiveData, removeDeck } from '../actions'
+import { deleteDeck } from '../utils/api'
+import { removeDeck } from '../actions'
 
 class ViewDeck extends Component {
 

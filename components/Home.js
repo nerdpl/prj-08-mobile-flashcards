@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Platform, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
 import { colors } from '../utils/colors'
 import { connect } from 'react-redux'
 import { fetchData } from '../utils/api'

@@ -1,10 +1,10 @@
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage, Platform } from 'react-native'
 import * as Notifications from 'expo-notifications'
 import * as Permissions from 'expo-permissions'
 
 
 const STORAGE_KEY = 'MobileFlashCards'
-const NOTIFICATIONS_STORAGE_KEY = 'MobileFlashCards:notifications3'
+const NOTIFICATIONS_STORAGE_KEY = 'MobileFlashCards:notifications'
 
 export function fetchData() {
   return AsyncStorage.getItem(STORAGE_KEY)
@@ -35,36 +35,37 @@ export function submitCard(card, deck) {
 
 export function clearLocalNotification() {
   return AsyncStorage.removeItem(NOTIFICATIONS_STORAGE_KEY)
-    .then(Notifications.dismissAllNotificationsAsync())
+    .then(Notifications.cancelAllScheduledNotificationsAsync())
 }
 
 export function setLocalNotification() {
   AsyncStorage.getItem(NOTIFICATIONS_STORAGE_KEY)
     .then(JSON.parse)
     .then((data) => {
-      console.log('data: ', data)
       if (data === null) {
         Permissions.getAsync(Permissions.NOTIFICATIONS)
           .then(({ status }) => {
-            console.log('status: ', status)
             if (status === 'granted') {
-              Notifications.dismissAllNotificationsAsync()
+              Notifications.cancelAllScheduledNotificationsAsync()
                 .then(()=> {
-                  let tomorrow = new Date()
-                  tomorrow.setDate(tomorrow.getDate() + 1)
-                  tomorrow.setHours(17)
-                  tomorrow.setMinutes(0)
+                  Notifications.setNotificationHandler({
+                    handleNotification: async () => ({
+                      shouldShowAlert: true,
+                      shouldPlaySound: true,
+                      shouldSetBadge: false,
+                    }),
+                  })
                   Notifications.scheduleNotificationAsync(
                     {content: {
-                      title: 'Study plan',
+                      title: 'Mobile Flashcards',
                       body: "Don't forget to study today!",
-                      ios: { sound: true },
-                      android: { sound: true, sticky: false },
                     },
-                    trigger: { time: tomorrow, repeat: 'day' }
+                    trigger: null,
                     }
                   )
                     .then(AsyncStorage.setItem(NOTIFICATIONS_STORAGE_KEY, JSON.stringify(true)))
+                    .then(async ()=> {let xxx = await Notifications.getAllScheduledNotificationsAsync()
+                    console.log('aaa: ', xxx)})
                 })
               }    
           })
