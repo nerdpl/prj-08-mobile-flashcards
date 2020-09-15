@@ -17,31 +17,28 @@ class Quiz extends Component {
   }
 
   answerCorrect = (deck)=> {
-    const { correctAnswers, currentQuestion, questionsAmount } = this.state
-
-    this.setState({ correctAnswers: correctAnswers + 1, side: 'Q' })
-    if (currentQuestion + 1 === questionsAmount) {
-      const score = 'Your score is ' + correctAnswers + '/' + questionsAmount + '!'
-      this.setState({ correctAnswers: 0, currentQuestion: 0 })
-      clearLocalNotification()
-        .then(setLocalNotification())
-      this.props.navigation.navigate('ViewQuizResults', { score: score, deckKey: deck.title })
-    }
-    else this.setState({ currentQuestion: currentQuestion + 1 })
+    this.setState({ correctAnswers: this.state.correctAnswers + 1, side: 'Q' }, ()=> {
+      if (this.state.currentQuestion + 1 === this.state.questionsAmount) {
+        const score = 'Your score is ' + this.state.correctAnswers + '/' + this.state.questionsAmount + '!'
+        this.setState({ correctAnswers: 0, currentQuestion: 0 })
+        //clearLocalNotification()
+          //.then(setLocalNotification())
+        this.props.navigation.navigate('ViewQuizResults', { score: score, deckKey: deck.title })
+      }
+      else this.setState({ currentQuestion: this.state.currentQuestion + 1 })
+    })
   }
 
   answerIncorrect = (deck)=> {
-    const { correctAnswers, currentQuestion, questionsAmount } = this.state
-
     this.setState({ side: 'Q' })
-    if (currentQuestion + 1 === questionsAmount) {
-      const score = 'Your score is ' + correctAnswers + '/' + questionsAmount + '!'
+    if (this.state.currentQuestion + 1 === this.state.questionsAmount) {
+      const score = 'Your score is ' + this.state.correctAnswers + '/' + this.state.questionsAmount + '!'
       this.setState({ correctAnswers: 0, currentQuestion: 0 })
-      clearLocalNotification()
-        .then(setLocalNotification())
+      //clearLocalNotification()
+        //.then(setLocalNotification())
       this.props.navigation.navigate('ViewQuizResults', { score: score, deckKey: deck.title })
     }
-    else this.setState({ currentQuestion: currentQuestion + 1 })
+    else this.setState({ currentQuestion: this.state.currentQuestion + 1 })
   }
 
   render() {
