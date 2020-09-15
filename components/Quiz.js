@@ -21,8 +21,8 @@ class Quiz extends Component {
       if (this.state.currentQuestion + 1 === this.state.questionsAmount) {
         const score = 'Your score is ' + this.state.correctAnswers + '/' + this.state.questionsAmount + '!'
         this.setState({ correctAnswers: 0, currentQuestion: 0 })
-        //clearLocalNotification()
-          //.then(setLocalNotification())
+        clearLocalNotification()
+          .then(()=> setLocalNotification())
         this.props.navigation.navigate('ViewQuizResults', { score: score, deckKey: deck.title })
       }
       else this.setState({ currentQuestion: this.state.currentQuestion + 1 })
@@ -34,8 +34,8 @@ class Quiz extends Component {
     if (this.state.currentQuestion + 1 === this.state.questionsAmount) {
       const score = 'Your score is ' + this.state.correctAnswers + '/' + this.state.questionsAmount + '!'
       this.setState({ correctAnswers: 0, currentQuestion: 0 })
-      //clearLocalNotification()
-        //.then(setLocalNotification())
+      clearLocalNotification()
+          .then(()=> setLocalNotification())
       this.props.navigation.navigate('ViewQuizResults', { score: score, deckKey: deck.title })
     }
     else this.setState({ currentQuestion: this.state.currentQuestion + 1 })
