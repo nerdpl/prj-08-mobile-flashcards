@@ -7,6 +7,7 @@
 * [Installation](#installation)
 * [Components](#functions)
 * [Additional Functionality](#additional_functionality)
+* [Tested Platforms](#tested_platforms)
 
 ## Project_Info
 
@@ -58,3 +59,7 @@ Shows number of correct answers and total amount of cards and lets user take the
 
 - I added Redux for state menagement.
 - I added the option to delete deck.
+
+## Tested_Platforms
+
+I have tested the app with iOS and Android physical devices.
