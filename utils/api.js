@@ -55,12 +55,32 @@ export function setLocalNotification() {
                       shouldSetBadge: false,
                     }),
                   })
+                  let tomorrow = new Date()
+                  let notificationTrigger = {}
+                  tomorrow = tomorrow.getDate() + 1 
+                  if (Platform.OS === 'ios') { 
+                    notificationTrigger = {
+                      type: 'calendar',
+                      repeats: true,
+                      dateComponents: {
+                        day: tomorrow,
+                        hour: 17,
+                        minute: 0,
+                    }
+                  }}
+                  else { 
+                    notificationTrigger = {
+                      type: 'daily',
+                      hour: 17,
+                      minute: 0,
+                  }}
                   Notifications.scheduleNotificationAsync(
-                    {content: {
-                      title: 'Mobile Flashcards',
-                      body: "Don't forget to study today!",
-                    },
-                    trigger: null,
+                    {
+                      content: {
+                        title: 'Mobile Flashcards',
+                        body: "Don't forget to study today!",
+                      },
+                      trigger: notificationTrigger,
                     }
                   )
                     .then(AsyncStorage.setItem(NOTIFICATIONS_STORAGE_KEY, JSON.stringify(true)))
