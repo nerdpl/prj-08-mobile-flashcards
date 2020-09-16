@@ -1,4 +1,4 @@
-import { AsyncStorage, Platform } from 'react-native'
+import { AsyncStorage } from 'react-native'
 import * as Notifications from 'expo-notifications'
 import * as Permissions from 'expo-permissions'
 
@@ -56,36 +56,23 @@ export function setLocalNotification() {
                     }),
                   })
                   let tomorrow = new Date()
-                  let notificationTrigger = {}
-                  tomorrow = tomorrow.getDate() + 1 
-                  if (Platform.OS === 'ios') { 
-                    notificationTrigger = {
-                      type: 'calendar',
-                      repeats: true,
-                      dateComponents: {
-                        day: tomorrow,
-                        hour: 17,
-                        minute: 0,
-                    }
-                  }}
-                  else { 
-                    notificationTrigger = {
-                      type: 'daily',
-                      hour: 17,
-                      minute: 0,
-                  }}
+                  tomorrow.setHours(19)
+                  tomorrow.setMinutes(0)
+                  tomorrow.setSeconds(0)
+                  tomorrow.setMilliseconds(0)
+                  tomorrow = tomorrow.getTime() + (1000 * 60 * 60 * 24)
+                  let notificationDate = new Date(tomorrow)
                   Notifications.scheduleNotificationAsync(
                     {
                       content: {
                         title: 'Mobile Flashcards',
                         body: "Don't forget to study today!",
+                        sound: true,
                       },
-                      trigger: notificationTrigger,
+                      trigger: notificationDate,
                     }
                   )
                     .then(AsyncStorage.setItem(NOTIFICATIONS_STORAGE_KEY, JSON.stringify(true)))
-                    .then(async ()=> {let xxx = await Notifications.getAllScheduledNotificationsAsync()
-                    console.log('aaa: ', xxx)})
                 })
               }    
           })
